@@ -1,5 +1,6 @@
 ---
-import ProjectCard from "../components/ProjectCard.astro";
+import ProjectCarousel from "../components/ProjectCarousel.astro";
+import SocialRail from "../components/SocialRail.astro";
 import { projects } from "../data/projects";
 import "../styles/global.css";
 
@@ -21,18 +22,20 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <header class="site-header">
-      <span class="brand">TJ.</span>
+      <span class="logo-mark">[<span class="accent">TJ</span>]</span>
       <div class="lang-toggle" role="group" aria-label="Language">
         <button type="button" data-lang-btn="pt" aria-pressed="true">PT</button>
         <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
       </div>
     </header>
+
+    <SocialRail />
 
     <main>
       <section class="hero container">
@@ -76,11 +79,7 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
           </h2>
           <span class="count">{education.length} projects</span>
         </div>
-        <div class="project-grid">
-          {education.map((project) => (
-            <ProjectCard project={project} />
-          ))}
-        </div>
+        <ProjectCarousel items={education} id="carousel-education" />
       </section>
 
       <section class="section container" id="gamejams">
@@ -91,23 +90,19 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
           </h2>
           <span class="count">{gamejams.length} projects</span>
         </div>
-        <div class="project-grid">
-          {gamejams.map((project) => (
-            <ProjectCard project={project} />
-          ))}
-        </div>
+        <ProjectCarousel items={gamejams} id="carousel-gamejams" />
       </section>
     </main>
 
     <footer class="site-footer container">
-      <span>© {new Date().getFullYear()} Tiago "TJ" Jonathan</span>
-      <a href="mailto:tiago.jonathan@pucpr.br">tiago.jonathan@pucpr.br</a>
+      <span>© {new Date().getFullYear()} Tiago "TJ" Jonathan · <a href="mailto:tiago.jonathan@pucpr.br">tiago.jonathan@pucpr.br</a></span>
     </footer>
 
     <script>
       import { gsap } from "gsap";
       import { ScrollTrigger } from "gsap/ScrollTrigger";
       import Lenis from "lenis";
+      import { initCarousels } from "../scripts/carousel";
 
       gsap.registerPlugin(ScrollTrigger);
 
@@ -117,6 +112,8 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
         lenis.raf(time * 1000);
       });
       gsap.ticker.lagSmoothing(0);
+
+      initCarousels();
 
       // Language toggle
       const langButtons = document.querySelectorAll<HTMLButtonElement>("[data-lang-btn]");
@@ -161,16 +158,15 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
         }
       });
 
-      // Scroll-reveal for project cards
-      gsap.utils.toArray<HTMLElement>(".project-card").forEach((card, i) => {
-        gsap.from(card, {
+      // Scroll-reveal for carousels (whole section, not individual scaled slides)
+      gsap.utils.toArray<HTMLElement>(".embla").forEach((embla) => {
+        gsap.from(embla, {
           opacity: 0,
           y: 32,
-          duration: 0.7,
+          duration: 0.8,
           ease: "power3.out",
-          delay: (i % 3) * 0.05,
           scrollTrigger: {
-            trigger: card,
+            trigger: embla,
             start: "top 88%",
           },
         });

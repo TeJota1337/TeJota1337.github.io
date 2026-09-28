@@ -1,0 +1,28 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import type { Project } from "../data/projects";
+
+interface Props {
+  items: Project[];
+  id: string;
+}
+
+const { items, id } = Astro.props;
+---
+
+<div class="embla" data-embla id={id}>
+  <div class="embla__viewport">
+    <div class="embla__container">
+      {items.map((project) => (
+        <div class="embla__slide">
+          <ProjectCard project={project} />
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="embla__controls">
+    <button type="button" class="embla__button" data-embla-prev aria-label="Previous">‹</button>
+    <div class="embla__dots" data-embla-dots></div>
+    <button type="button" class="embla__button" data-embla-next aria-label="Next">›</button>
+  </div>
+</div>
