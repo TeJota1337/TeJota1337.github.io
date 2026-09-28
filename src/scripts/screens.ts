@@ -59,9 +59,22 @@ export function initScreens() {
   }
 
   function renderViewer() {
-    const items = itemsFor(currentCat);
-    viewerItems.forEach((el) => el.classList.remove("active"));
-    items[currentIndex]?.classList.add("active");
+    viewerItems.forEach((el) => {
+      if (el.dataset.cat !== currentCat) {
+        el.style.display = "none";
+        return;
+      }
+      el.style.display = "flex";
+      const i = Number(el.dataset.index);
+      const diff = i - currentIndex;
+      el.classList.toggle("active", diff === 0);
+      const scale = diff === 0 ? 1 : 0.82;
+      const opacity = diff === 0 ? 1 : Math.max(0.2, 0.5 - Math.abs(diff) * 0.15);
+      const y = diff * 210;
+      el.style.transform = `translate(-50%, calc(-50% + ${y}px)) scale(${scale})`;
+      el.style.opacity = String(opacity);
+      el.style.zIndex = String(diff === 0 ? 2 : 1);
+    });
   }
 
   document.getElementById("viewer-prev")?.addEventListener("click", () => {

@@ -399,21 +399,27 @@ button {
   position: relative;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
+  overflow: hidden;
 }
 
 .viewer-item {
-  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   width: 100%;
+  max-width: 640px;
   text-align: center;
   align-items: center;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
 }
 
-.viewer-item.active {
-  display: flex;
+.viewer-item:not(.active) .desc,
+.viewer-item:not(.active) .viewer-item-meta,
+.viewer-item:not(.active) .viewer-item-badge,
+.viewer-item:not(.active) .link {
+  display: none;
 }
 
 .viewer-item-number {
