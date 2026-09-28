@@ -556,6 +556,67 @@ img {
   }
 }
 
+/* --- certificates --- */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.cert-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 0.25s, transform 0.25s;
+}
+
+.cert-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.cert-thumb {
+  background: #fff;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+}
+
+.cert-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.cert-info {
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cert-info h3 {
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.cert-info .meta {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.cert-info .link {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: auto;
+}
+
 /* --- footer --- */
 .site-footer {
   border-top: 1px solid var(--border);

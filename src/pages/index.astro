@@ -1,6 +1,7 @@
 ---
 import ProjectCarousel from "../components/ProjectCarousel.astro";
 import SocialRail from "../components/SocialRail.astro";
+import CertificatesSection from "../components/CertificatesSection.astro";
 import { projects } from "../data/projects";
 import "../styles/global.css";
 
@@ -148,6 +149,8 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
         </div>
         <ProjectCarousel items={gamejams} id="carousel-gamejams" />
       </section>
+
+      <CertificatesSection />
     </main>
 
     <footer class="site-footer container">
