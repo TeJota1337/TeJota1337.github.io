@@ -1,17 +1,180 @@
 ---
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data/projects";
+import "../styles/global.css";
 
+const education = projects.filter((p) => p.category === "education");
+const gamejams = projects.filter((p) => p.category === "gamejam");
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="pt" data-lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Tiago "TJ" Jonathan — Game &amp; UX Designer</title>
+    <meta
+      name="description"
+      content="IxD/UX Game Designer portfolio — VR experiences, serious games and game jam projects."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <span class="brand">TJ.</span>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang-btn="pt" aria-pressed="true">PT</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container">
+        <p class="hero-eyebrow">
+          <span class="lang-pt">IxD / UX Game Designer</span>
+          <span class="lang-en">IxD / UX Game Designer</span>
+        </p>
+        <h1>
+          <span class="lang-pt">Oi, eu sou o <span class="highlight">Tiago "TJ" Jonathan</span>.</span>
+          <span class="lang-en">Hi, I'm <span class="highlight">Tiago "TJ" Jonathan</span>.</span>
+        </h1>
+        <p class="bio lang-pt">
+          Formado em Jogos Digitais (2024) e gamer desde sempre. Crio experiências centradas no
+          jogador, com foco em usabilidade e imersão. Atualmente integro a equipe do Centro de
+          Realidade Estendida da PUCPR, desenvolvendo experiências em realidade virtual.
+        </p>
+        <p class="bio lang-en">
+          I graduated in Digital Games (2024) and have been a gamer forever. I create
+          player-centered experiences focused on usability and immersion. I'm currently part of
+          PUCPR's Extended Reality Center team, developing virtual reality experiences.
+        </p>
+        <div class="hero-actions">
+          <button type="button" class="btn-primary" id="view-portfolio">
+            <span class="lang-pt">Ver Portfólio</span>
+            <span class="lang-en">View Portfolio</span>
+          </button>
+          <a class="hero-contact" href="mailto:tiago.jonathan@pucpr.br">tiago.jonathan@pucpr.br</a>
+        </div>
+        <div class="hero-scroll-hint">
+          <span class="line"></span>
+          <span class="lang-pt">Role para baixo</span>
+          <span class="lang-en">Scroll down</span>
+        </div>
+      </section>
+
+      <section class="section container" id="projects">
+        <div class="section-heading">
+          <h2>
+            <span class="lang-pt">Experiências em VR &amp; Educação</span>
+            <span class="lang-en">VR &amp; Education Experiences</span>
+          </h2>
+          <span class="count">{education.length} projects</span>
+        </div>
+        <div class="project-grid">
+          {education.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      </section>
+
+      <section class="section container" id="gamejams">
+        <div class="section-heading">
+          <h2>
+            <span class="lang-pt">Jogos de Game Jam</span>
+            <span class="lang-en">Game Jam Games</span>
+          </h2>
+          <span class="count">{gamejams.length} projects</span>
+        </div>
+        <div class="project-grid">
+          {gamejams.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer container">
+      <span>© {new Date().getFullYear()} Tiago "TJ" Jonathan</span>
+      <a href="mailto:tiago.jonathan@pucpr.br">tiago.jonathan@pucpr.br</a>
+    </footer>
+
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+      import Lenis from "lenis";
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new Lenis({ duration: 1.1 });
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+
+      // Language toggle
+      const langButtons = document.querySelectorAll<HTMLButtonElement>("[data-lang-btn]");
+      langButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const lang = btn.dataset.langBtn as "pt" | "en";
+          document.documentElement.dataset.lang = lang;
+          document.documentElement.lang = lang;
+          langButtons.forEach((b) =>
+            b.setAttribute("aria-pressed", String(b === btn))
+          );
+        });
+      });
+
+      // Hero entrance animation
+      gsap.from(".hero-eyebrow", { opacity: 0, y: 16, duration: 0.7, ease: "power3.out", delay: 0.1 });
+      gsap.from(".hero h1", { opacity: 0, y: 24, duration: 0.9, ease: "power3.out", delay: 0.25 });
+      gsap.from(".hero .bio.lang-pt, .hero .bio.lang-en", {
+        opacity: 0,
+        y: 20,
+        duration: 0.9,
+        ease: "power3.out",
+        delay: 0.45,
+      });
+      gsap.from(".hero-actions", { opacity: 0, y: 20, duration: 0.9, ease: "power3.out", delay: 0.6 });
+      gsap.from(".hero-scroll-hint", { opacity: 0, duration: 1, delay: 1 });
+
+      // "View Portfolio" -> smooth scroll with a small flourish
+      const viewBtn = document.getElementById("view-portfolio");
+      viewBtn?.addEventListener("click", () => {
+        gsap.to(viewBtn, {
+          scale: 0.94,
+          duration: 0.15,
+          yoyo: true,
+          repeat: 1,
+          ease: "power1.inOut",
+        });
+        const target = document.getElementById("projects");
+        if (target) {
+          // @ts-expect-error lenis types
+          lenis.scrollTo(target, { duration: 1.4, easing: (t: number) => 1 - Math.pow(1 - t, 3) });
+        }
+      });
+
+      // Scroll-reveal for project cards
+      gsap.utils.toArray<HTMLElement>(".project-card").forEach((card, i) => {
+        gsap.from(card, {
+          opacity: 0,
+          y: 32,
+          duration: 0.7,
+          ease: "power3.out",
+          delay: (i % 3) * 0.05,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+          },
+        });
+      });
+    </script>
+  </body>
 </html>
