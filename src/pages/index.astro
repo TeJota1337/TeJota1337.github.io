@@ -1,8 +1,8 @@
 ---
-import ProjectChamber from "../components/ProjectChamber.astro";
+import ViewerItem from "../components/ViewerItem.astro";
 import SocialRail from "../components/SocialRail.astro";
-import CertificatesSection from "../components/CertificatesSection.astro";
 import { projects } from "../data/projects";
+import { certificates } from "../data/certificates";
 import "../styles/global.css";
 
 const education = projects.filter((p) => p.category === "education");
@@ -23,208 +23,132 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Barriecito&family=Rajdhani:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
 
-    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
-      <defs>
-        <symbol id="f-tri" viewBox="0 0 100 100">
-          <path d="M50 15 L85 80 H15 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"></path>
-        </symbol>
-        <symbol id="f-target" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" stroke-width="6"></circle>
-          <path d="M18 50H82" stroke="currentColor" stroke-width="6"></path>
-        </symbol>
-        <symbol id="f-bars" viewBox="0 0 100 100">
-          <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round">
-            <path d="M20 30H80M20 50H80M20 70H80"></path>
-          </g>
-          <circle cx="34" cy="30" r="6" fill="currentColor"></circle>
-          <circle cx="62" cy="50" r="6" fill="currentColor"></circle>
-          <circle cx="44" cy="70" r="6" fill="currentColor"></circle>
-        </symbol>
-        <symbol id="f-dash" viewBox="0 0 100 100">
-          <rect x="10" y="35" width="80" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="6"></rect>
-        </symbol>
-      </defs>
-    </svg>
-
-    <!-- Intro gate: aperture iris opening -->
-    <div class="gate" id="gate">
-      <div class="gate-inner">
-        <svg class="iris" viewBox="0 0 200 200" aria-hidden="true">
-          <circle cx="100" cy="100" r="95" fill="none" stroke="#2c2c2a" stroke-width="2"></circle>
-          {Array.from({ length: 10 }).map((_, i) => (
-            <g transform={`rotate(${i * 36} 100 100)`}>
-              <path d="M100 100 L100 10 A90 90 0 0 1 127 16 Z" fill="none" stroke="#ff6a13" stroke-width="1.5" opacity="0.6"></path>
-            </g>
-          ))}
-          <circle cx="100" cy="100" r="45" fill="none" stroke="#e4222c" stroke-width="3"></circle>
-          <circle cx="100" cy="100" r="6" fill="#ff6a13"></circle>
-        </svg>
-        <p class="gate-who">Tiago "TJ" Jonathan</p>
-        <h2 class="gate-title">
-          <span class="lang-pt">Bem-vindo à <span class="accent-2">Câmara</span> de Testes.</span>
-          <span class="lang-en">Welcome to the <span class="accent-2">Test Chamber.</span></span>
-        </h2>
-        <button type="button" class="btn-enter" id="enter">
-          <span class="lang-pt">Ver Portfólio</span>
-          <span class="lang-en">View Portfolio</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="gate-slashes" aria-hidden="true">
-      <div class="gate-slash" style="top: 20%;"></div>
-      <div class="gate-slash" style="top: 45%; background: #ff6a13;"></div>
-      <div class="gate-slash" style="top: 70%;"></div>
-    </div>
-
-    <header class="site-header">
-      <span class="logo-mark">TJ</span>
-      <div class="lang-toggle" role="group" aria-label="Language">
-        <button type="button" data-lang-btn="pt" aria-pressed="true">PT</button>
-        <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
-      </div>
-    </header>
-
     <SocialRail />
 
-    <main>
-      <section class="hero container">
-        <div class="floaters" aria-hidden="true">
-          <div class="floater" data-depth="0.9" style="left: 8%; top: 20%; width: 64px; height: 64px;">
-            <svg style="--d: 5.5s; --r1: -6deg; --r2: 4deg"><use href="#f-tri"></use></svg>
-          </div>
-          <div class="floater" data-depth="0.5" style="left: 85%; top: 16%; width: 56px; height: 56px;">
-            <svg style="--d: 7s; --r1: -7deg; --r2: 5deg"><use href="#f-target"></use></svg>
-          </div>
-          <div class="floater" data-depth="1.1" style="left: 88%; top: 72%; width: 60px; height: 60px;">
-            <svg style="--d: 6s; --r1: -8deg; --r2: 6deg"><use href="#f-bars"></use></svg>
-          </div>
-          <div class="floater" data-depth="0.7" style="left: 6%; top: 74%; width: 70px; height: 70px;">
-            <svg style="--d: 8s; --r1: -9deg; --r2: 7deg"><use href="#f-dash"></use></svg>
-          </div>
+    <div id="app">
+      <!-- SCREEN: splash -->
+      <section class="screen active" data-screen="splash">
+        <div class="splash-inner">
+          <button type="button" class="logo-mark big" id="splash-logo" aria-label="Enter">TJ</button>
+          <p class="splash-tag">
+            <span class="lang-pt">IxD/UI/UX Game Designer</span>
+            <span class="lang-en">IxD/UI/UX Game Designer</span>
+          </p>
+          <p class="splash-bio">
+            <span class="lang-pt">
+              Formado em Jogos Digitais e gamer desde sempre. Crio experiências centradas no
+              jogador, com foco em usabilidade e imersão. Atualmente integro a equipe do Centro de
+              Realidade Estendida da PUCPR.
+            </span>
+            <span class="lang-en">
+              Graduated in Digital Games, gamer forever. I create player-centered experiences
+              focused on usability and immersion. Currently part of PUCPR's Extended Reality
+              Center team.
+            </span>
+          </p>
+          <p class="splash-hint">
+            <span class="lang-pt">Clique para entrar</span>
+            <span class="lang-en">Click to enter</span>
+          </p>
         </div>
-        <p class="hero-eyebrow">
-          <span class="lang-pt">Sujeito de Teste · IxD/UX Game Designer</span>
-          <span class="lang-en">Test Subject · IxD/UX Game Designer</span>
-        </p>
-        <h1>
-          <span class="lang-pt">Oi, eu sou o <span class="highlight">Tiago "TJ" Jonathan</span>.</span>
-          <span class="lang-en">Hi, I'm <span class="highlight">Tiago "TJ" Jonathan</span>.</span>
-        </h1>
-        <p class="bio lang-pt">
-          Formado em Jogos Digitais (2024) e gamer desde sempre. Crio experiências centradas no
-          jogador, com foco em usabilidade e imersão. Atualmente integro a equipe do Centro de
-          Realidade Estendida da PUCPR, desenvolvendo experiências em realidade virtual.
-        </p>
-        <p class="bio lang-en">
-          I graduated in Digital Games (2024) and have been a gamer forever. I create
-          player-centered experiences focused on usability and immersion. I'm currently part of
-          PUCPR's Extended Reality Center team, developing virtual reality experiences.
-        </p>
-        <div class="hero-actions">
-          <button type="button" class="btn-primary" id="view-portfolio">
-            <span class="lang-pt">Ver Projetos</span>
-            <span class="lang-en">View Projects</span>
+      </section>
+
+      <!-- SCREEN: menu -->
+      <section class="screen" data-screen="menu">
+        <header class="app-header">
+          <span class="logo-mark">TJ</span>
+          <div class="lang-toggle" role="group" aria-label="Language">
+            <button type="button" data-lang-btn="pt" aria-pressed="true">PT</button>
+            <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+          </div>
+        </header>
+        <nav class="menu-list" aria-label="Main menu">
+          <button type="button" class="menu-item glitch-target" data-target="education">
+            <span class="lang-pt">Projetos</span><span class="lang-en">Projects</span>
           </button>
-          <a class="hero-contact" href="mailto:tiago.jonathan@pucpr.br">tiago.jonathan@pucpr.br</a>
-        </div>
-        <div class="hero-scroll-hint">
-          <span class="line"></span>
-          <span class="lang-pt">Role para baixo</span>
-          <span class="lang-en">Scroll down</span>
-        </div>
-      </section>
-
-      <div class="hazard"></div>
-
-      <div class="ticker">
-        <div class="track">
-          <span>Game Design</span><span class="dot">·</span><span>Level Design</span><span class="dot">·</span>
-          <span>UI/UX</span><span class="dot">·</span><span>IxD</span><span class="dot">·</span>
-          <span>VR / XR</span><span class="dot">·</span><span>Unity</span><span class="dot">·</span>
-          <span>Prototyping</span><span class="dot">·</span><span>Playtesting</span><span class="dot">·</span>
-          <span>Game Design</span><span class="dot">·</span><span>Level Design</span><span class="dot">·</span>
-          <span>UI/UX</span><span class="dot">·</span><span>IxD</span><span class="dot">·</span>
-          <span>VR / XR</span><span class="dot">·</span><span>Unity</span><span class="dot">·</span>
-          <span>Prototyping</span><span class="dot">·</span><span>Playtesting</span><span class="dot">·</span>
-        </div>
-      </div>
-
-      <section class="section" id="projects">
-        <div class="container section-heading">
-          <span class="kicker">
-            <span class="lang-pt">Setor A</span><span class="lang-en">Sector A</span>
-          </span>
-          <h2>
-            <span class="lang-pt">VR &amp; Educação</span>
-            <span class="lang-en">VR &amp; Education</span>
-          </h2>
-          <span class="count">{education.length} chambers</span>
-        </div>
-        <div class="chambers">
-          {education.map((project, i) => (
-            <ProjectChamber project={project} index={i} />
-          ))}
+          <button type="button" class="menu-item glitch-target" data-target="gamejam">
+            <span class="lang-pt">Jogos de Jam</span><span class="lang-en">Game Jams</span>
+          </button>
+          <button type="button" class="menu-item glitch-target" data-target="certificates">
+            <span class="lang-pt">Certificados</span><span class="lang-en">Certificates</span>
+          </button>
+        </nav>
+        <div class="menu-dots" aria-hidden="true">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
         </div>
       </section>
 
-      <div class="hazard"></div>
-
-      <section class="section" id="gamejams">
-        <div class="container section-heading">
-          <span class="kicker">
-            <span class="lang-pt">Setor B</span><span class="lang-en">Sector B</span>
-          </span>
-          <h2>
-            <span class="lang-pt">Game Jams</span>
-            <span class="lang-en">Game Jams</span>
-          </h2>
-          <span class="count">{gamejams.length} chambers</span>
-        </div>
-        <div class="chambers">
-          {gamejams.map((project, i) => (
-            <ProjectChamber project={project} index={i} />
-          ))}
+      <!-- SCREEN: project / game jam viewer -->
+      <section class="screen" data-screen="viewer">
+        <header class="app-header">
+          <span class="logo-mark">TJ</span>
+          <div class="lang-toggle" role="group" aria-label="Language">
+            <button type="button" data-lang-btn="pt" aria-pressed="true">PT</button>
+            <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+          </div>
+        </header>
+        <h2 class="viewer-title glitch-target" id="viewer-title">Projetos</h2>
+        <div class="viewer-stage">
+          <button type="button" class="arrow up" id="viewer-prev" aria-label="Previous">▲</button>
+          <div class="viewer-track">
+            {education.map((project, i) => (
+              <ViewerItem project={project} index={i} category="education" />
+            ))}
+            {gamejams.map((project, i) => (
+              <ViewerItem project={project} index={i} category="gamejam" />
+            ))}
+          </div>
+          <button type="button" class="arrow down" id="viewer-next" aria-label="Next">▼</button>
+          <button type="button" class="btn-back glitch-target" id="viewer-back">
+            <span class="lang-pt">Voltar</span><span class="lang-en">Back</span>
+          </button>
         </div>
       </section>
 
-      <div class="hazard"></div>
-
-      <CertificatesSection />
-    </main>
-
-    <footer class="site-footer container">
-      <span>© {new Date().getFullYear()} Tiago "TJ" Jonathan · <a href="mailto:tiago.jonathan@pucpr.br">tiago.jonathan@pucpr.br</a></span>
-    </footer>
+      <!-- SCREEN: certificates coverflow -->
+      <section class="screen" data-screen="certs">
+        <header class="app-header">
+          <span class="logo-mark">TJ</span>
+          <div class="lang-toggle" role="group" aria-label="Language">
+            <button type="button" data-lang-btn="pt" aria-pressed="true">PT</button>
+            <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+          </div>
+        </header>
+        <h2 class="viewer-title glitch-target">
+          <span class="lang-pt">Certificados</span><span class="lang-en">Certificates</span>
+        </h2>
+        <div class="cert-stage">
+          <div class="cert-track">
+            {certificates.map((cert) => (
+              <a class="cert-slide" href={cert.verifyUrl || cert.image} target="_blank" rel="noopener noreferrer">
+                <div class="cert-thumb">
+                  <img src={cert.image} alt={cert.title} loading="lazy" />
+                </div>
+                <h3>{cert.title}</h3>
+                <p class="meta">{cert.issuer} · {cert.date}</p>
+              </a>
+            ))}
+          </div>
+          <div class="cert-dots" id="cert-dots"></div>
+          <button type="button" class="btn-back glitch-target" id="certs-back">
+            <span class="lang-pt">Voltar</span><span class="lang-en">Back</span>
+          </button>
+        </div>
+      </section>
+    </div>
 
     <script>
-      import { gsap } from "gsap";
-      import { ScrollTrigger } from "gsap/ScrollTrigger";
-      import Lenis from "lenis";
-      import { initFloaters, initChamberTilt, initMagneticButton, initGlitch } from "../scripts/life";
-      import { initGate } from "../scripts/gate";
+      import { initScreens, initHoverGlitch } from "../scripts/screens";
 
-      gsap.registerPlugin(ScrollTrigger);
-
-      const lenis = new Lenis({ duration: 1.1 });
-      lenis.on("scroll", ScrollTrigger.update);
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
-      gsap.ticker.lagSmoothing(0);
-
-      initGate();
-      initFloaters();
-      initChamberTilt();
-      initMagneticButton();
-      initGlitch();
+      initScreens();
+      initHoverGlitch();
 
       // Language toggle
       const langButtons = document.querySelectorAll<HTMLButtonElement>("[data-lang-btn]");
@@ -236,37 +160,6 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
           langButtons.forEach((b) =>
             b.setAttribute("aria-pressed", String(b === btn))
           );
-        });
-      });
-
-      // "View Projects" -> smooth scroll with a small flourish
-      const viewBtn = document.getElementById("view-portfolio");
-      viewBtn?.addEventListener("click", () => {
-        gsap.to(viewBtn, {
-          scale: 0.94,
-          duration: 0.15,
-          yoyo: true,
-          repeat: 1,
-          ease: "power1.inOut",
-        });
-        const target = document.getElementById("projects");
-        if (target) {
-          // @ts-expect-error lenis types
-          lenis.scrollTo(target, { duration: 1.4, easing: (t: number) => 1 - Math.pow(1 - t, 3) });
-        }
-      });
-
-      // Scroll-reveal for chambers: slash in diagonally, alternating sides
-      gsap.utils.toArray<HTMLElement>(".reveal-chamber").forEach((chamber, i) => {
-        gsap.from(chamber, {
-          opacity: 0,
-          x: i % 2 === 0 ? -60 : 60,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: chamber,
-            start: "top 85%",
-          },
         });
       });
     </script>
