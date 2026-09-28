@@ -70,7 +70,7 @@ export function initScreens() {
       el.classList.toggle("active", diff === 0);
       const scale = diff === 0 ? 1 : 0.82;
       const opacity = diff === 0 ? 1 : Math.max(0.2, 0.5 - Math.abs(diff) * 0.15);
-      const y = diff * 210;
+      const y = diff * 300;
       el.style.transform = `translate(-50%, calc(-50% + ${y}px)) scale(${scale})`;
       el.style.opacity = String(opacity);
       el.style.zIndex = String(diff === 0 ? 2 : 1);
