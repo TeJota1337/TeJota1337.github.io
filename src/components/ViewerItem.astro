@@ -14,9 +14,6 @@ const linkLabelPt = project.category === "gamejam" ? "Jogar" : "Ver";
 ---
 
 <article class="viewer-item" data-cat={category} data-index={index}>
-  <div class="viewer-item-cover">
-    <img src={project.coverImage} alt={project.title} loading="lazy" />
-  </div>
   <span class="viewer-item-number">{num}</span>
   {project.featured && (
     <span class="viewer-item-badge">

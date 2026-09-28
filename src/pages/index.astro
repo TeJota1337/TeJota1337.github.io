@@ -1,5 +1,6 @@
 ---
 import ViewerItem from "../components/ViewerItem.astro";
+import ProjectCard from "../components/ProjectCard.astro";
 import SocialRail from "../components/SocialRail.astro";
 import { projects } from "../data/projects";
 import { certificates } from "../data/certificates";
@@ -95,7 +96,17 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
           </div>
         </header>
         <h2 class="viewer-title glitch-target" id="viewer-title">Projetos</h2>
-        <div class="viewer-stage">
+
+        <div class="viewer-list" id="viewer-list">
+          {education.map((project, i) => (
+            <ProjectCard project={project} index={i} category="education" />
+          ))}
+          {gamejams.map((project, i) => (
+            <ProjectCard project={project} index={i} category="gamejam" />
+          ))}
+        </div>
+
+        <div class="viewer-detail-wrap">
           <button type="button" class="arrow up" id="viewer-prev" aria-label="Previous">▲</button>
           <div class="viewer-track">
             {education.map((project, i) => (
@@ -106,10 +117,11 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
             ))}
           </div>
           <button type="button" class="arrow down" id="viewer-next" aria-label="Next">▼</button>
-          <button type="button" class="btn-back glitch-target" id="viewer-back">
-            <span class="lang-pt">Voltar</span><span class="lang-en">Back</span>
-          </button>
         </div>
+
+        <button type="button" class="btn-back glitch-target" id="viewer-back">
+          <span class="lang-pt">Voltar</span><span class="lang-en">Back</span>
+        </button>
       </section>
 
       <!-- SCREEN: certificates coverflow -->

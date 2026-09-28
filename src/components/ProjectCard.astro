@@ -1,0 +1,28 @@
+---
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+  index: number;
+  category: "education" | "gamejam";
+}
+
+const { project, index, category } = Astro.props;
+const num = String(index + 1).padStart(2, "0");
+---
+
+<button
+  type="button"
+  class="project-card"
+  data-cat={category}
+  data-index={index}
+  style={`background-image:url(${project.coverImage});z-index:${index + 1};`}
+>
+  <span class="project-card-num">{num}</span>
+  {project.featured && (
+    <span class="project-card-badge">
+      <span class="lang-pt">Destaque</span><span class="lang-en">Featured</span>
+    </span>
+  )}
+  <span class="project-card-title glitch-target">{project.title}</span>
+</button>

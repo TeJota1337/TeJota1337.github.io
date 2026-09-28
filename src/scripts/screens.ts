@@ -37,8 +37,10 @@ export function initScreens() {
   });
 
   // --- viewer (education / gamejam) ---
+  const viewerScreen = document.querySelector<HTMLElement>('[data-screen="viewer"]');
   const viewerTitle = document.getElementById("viewer-title") as HTMLElement;
   const viewerItems = Array.from(document.querySelectorAll<HTMLElement>(".viewer-item"));
+  const projectCards = Array.from(document.querySelectorAll<HTMLButtonElement>(".project-card"));
   let currentCat: "education" | "gamejam" = "education";
   let currentIndex = 0;
 
@@ -46,48 +48,53 @@ export function initScreens() {
     return viewerItems.filter((el) => el.dataset.cat === cat);
   }
 
-  function setViewerCategory(cat: "education" | "gamejam") {
-    currentCat = cat;
-    currentIndex = 0;
-    const isEn = document.documentElement.dataset.lang === "en";
-    if (cat === "education") {
-      viewerTitle.textContent = isEn ? "Projects" : "Projetos";
-    } else {
-      viewerTitle.textContent = isEn ? "Game Jams" : "Jogos de Jam";
-    }
-    renderViewer();
+  function setViewerMode(mode: "list" | "detail") {
+    viewerScreen?.classList.toggle("mode-detail", mode === "detail");
   }
 
-  function renderViewer() {
+  function setViewerCategory(cat: "education" | "gamejam") {
+    currentCat = cat;
+    const isEn = document.documentElement.dataset.lang === "en";
+    viewerTitle.textContent =
+      cat === "education" ? (isEn ? "Projects" : "Projetos") : isEn ? "Game Jams" : "Jogos de Jam";
+    projectCards.forEach((card) => {
+      card.style.display = card.dataset.cat === cat ? "flex" : "none";
+    });
+    setViewerMode("list");
+  }
+
+  function renderDetail() {
     viewerItems.forEach((el) => {
-      if (el.dataset.cat !== currentCat) {
-        el.style.display = "none";
-        return;
-      }
-      el.style.display = "flex";
-      const i = Number(el.dataset.index);
-      const diff = i - currentIndex;
-      el.classList.toggle("active", diff === 0);
-      const scale = diff === 0 ? 1 : 0.82;
-      const opacity = diff === 0 ? 1 : Math.max(0.2, 0.5 - Math.abs(diff) * 0.15);
-      const y = diff * 300;
-      el.style.transform = `translate(-50%, calc(-50% + ${y}px)) scale(${scale})`;
-      el.style.opacity = String(opacity);
-      el.style.zIndex = String(diff === 0 ? 2 : 1);
+      const match = el.dataset.cat === currentCat && Number(el.dataset.index) === currentIndex;
+      el.classList.toggle("active", match);
     });
   }
+
+  projectCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      currentIndex = Number(card.dataset.index);
+      renderDetail();
+      setViewerMode("detail");
+    });
+  });
 
   document.getElementById("viewer-prev")?.addEventListener("click", () => {
     const items = itemsFor(currentCat);
     currentIndex = (currentIndex - 1 + items.length) % items.length;
-    renderViewer();
+    renderDetail();
   });
   document.getElementById("viewer-next")?.addEventListener("click", () => {
     const items = itemsFor(currentCat);
     currentIndex = (currentIndex + 1) % items.length;
-    renderViewer();
+    renderDetail();
   });
-  document.getElementById("viewer-back")?.addEventListener("click", () => showScreen("menu"));
+  document.getElementById("viewer-back")?.addEventListener("click", () => {
+    if (viewerScreen?.classList.contains("mode-detail")) {
+      setViewerMode("list");
+    } else {
+      showScreen("menu");
+    }
+  });
 
   // --- certificates coverflow ---
   const certSlides = Array.from(document.querySelectorAll<HTMLElement>(".cert-slide"));
@@ -135,10 +142,12 @@ export function initScreens() {
   // keyboard nav
   document.addEventListener("keydown", (e) => {
     const active = document.querySelector<HTMLElement>(".screen.active")?.dataset.screen;
-    if (e.key === "Escape" && (active === "viewer" || active === "certs")) {
-      showScreen("menu");
+    const inDetail = viewerScreen?.classList.contains("mode-detail");
+    if (e.key === "Escape") {
+      if (active === "viewer" && inDetail) setViewerMode("list");
+      else if (active === "viewer" || active === "certs") showScreen("menu");
     }
-    if (active === "viewer") {
+    if (active === "viewer" && inDetail) {
       if (e.key === "ArrowUp") document.getElementById("viewer-prev")?.click();
       if (e.key === "ArrowDown") document.getElementById("viewer-next")?.click();
     }
