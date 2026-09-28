@@ -1,5 +1,5 @@
 ---
-import ProjectCarousel from "../components/ProjectCarousel.astro";
+import ProjectChamber from "../components/ProjectChamber.astro";
 import SocialRail from "../components/SocialRail.astro";
 import CertificatesSection from "../components/CertificatesSection.astro";
 import { projects } from "../data/projects";
@@ -23,7 +23,7 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -48,13 +48,44 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
           <circle cx="44" cy="70" r="6" fill="currentColor"></circle>
         </symbol>
         <symbol id="f-dash" viewBox="0 0 100 100">
-          <rect x="10" y="35" width="80" height="30" rx="10" fill="none" stroke="currentColor" stroke-width="6"></rect>
+          <rect x="10" y="35" width="80" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="6"></rect>
         </symbol>
       </defs>
     </svg>
 
+    <!-- Intro gate: aperture iris opening -->
+    <div class="gate" id="gate">
+      <div class="gate-inner">
+        <svg class="iris" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="95" fill="none" stroke="#2c2c2a" stroke-width="2"></circle>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <g transform={`rotate(${i * 36} 100 100)`}>
+              <path d="M100 100 L100 10 A90 90 0 0 1 127 16 Z" fill="none" stroke="#ff6a13" stroke-width="1.5" opacity="0.6"></path>
+            </g>
+          ))}
+          <circle cx="100" cy="100" r="45" fill="none" stroke="#e4222c" stroke-width="3"></circle>
+          <circle cx="100" cy="100" r="6" fill="#ff6a13"></circle>
+        </svg>
+        <p class="gate-who">Tiago "TJ" Jonathan</p>
+        <h2 class="gate-title">
+          <span class="lang-pt">Bem-vindo à <span class="accent-2">Câmara</span> de Testes.</span>
+          <span class="lang-en">Welcome to the <span class="accent-2">Test Chamber.</span></span>
+        </h2>
+        <button type="button" class="btn-enter" id="enter">
+          <span class="lang-pt">Ver Portfólio</span>
+          <span class="lang-en">View Portfolio</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="gate-slashes" aria-hidden="true">
+      <div class="gate-slash" style="top: 20%;"></div>
+      <div class="gate-slash" style="top: 45%; background: #ff6a13;"></div>
+      <div class="gate-slash" style="top: 70%;"></div>
+    </div>
+
     <header class="site-header">
-      <span class="logo-mark">[<span class="accent">TJ</span>]</span>
+      <span class="logo-mark">TJ</span>
       <div class="lang-toggle" role="group" aria-label="Language">
         <button type="button" data-lang-btn="pt" aria-pressed="true">PT</button>
         <button type="button" data-lang-btn="en" aria-pressed="false">EN</button>
@@ -80,8 +111,8 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
           </div>
         </div>
         <p class="hero-eyebrow">
-          <span class="lang-pt">IxD / UX Game Designer</span>
-          <span class="lang-en">IxD / UX Game Designer</span>
+          <span class="lang-pt">Sujeito de Teste · IxD/UX Game Designer</span>
+          <span class="lang-en">Test Subject · IxD/UX Game Designer</span>
         </p>
         <h1>
           <span class="lang-pt">Oi, eu sou o <span class="highlight">Tiago "TJ" Jonathan</span>.</span>
@@ -99,8 +130,8 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
         </p>
         <div class="hero-actions">
           <button type="button" class="btn-primary" id="view-portfolio">
-            <span class="lang-pt">Ver Portfólio</span>
-            <span class="lang-en">View Portfolio</span>
+            <span class="lang-pt">Ver Projetos</span>
+            <span class="lang-en">View Projects</span>
           </button>
           <a class="hero-contact" href="mailto:tiago.jonathan@pucpr.br">tiago.jonathan@pucpr.br</a>
         </div>
@@ -111,9 +142,7 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
         </div>
       </section>
 
-      <svg class="wave-divider" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,50 L1000,50 L1000,101 L0,101 Z"></path>
-      </svg>
+      <div class="hazard"></div>
 
       <div class="ticker">
         <div class="track">
@@ -128,27 +157,45 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
         </div>
       </div>
 
-      <section class="section container" id="projects">
-        <div class="section-heading">
+      <section class="section" id="projects">
+        <div class="container section-heading">
+          <span class="kicker">
+            <span class="lang-pt">Setor A</span><span class="lang-en">Sector A</span>
+          </span>
           <h2>
-            <span class="lang-pt">Experiências em VR &amp; Educação</span>
-            <span class="lang-en">VR &amp; Education Experiences</span>
+            <span class="lang-pt">VR &amp; Educação</span>
+            <span class="lang-en">VR &amp; Education</span>
           </h2>
-          <span class="count">{education.length} projects</span>
+          <span class="count">{education.length} chambers</span>
         </div>
-        <ProjectCarousel items={education} id="carousel-education" />
+        <div class="chambers">
+          {education.map((project, i) => (
+            <ProjectChamber project={project} index={i} />
+          ))}
+        </div>
       </section>
 
-      <section class="section container" id="gamejams">
-        <div class="section-heading">
+      <div class="hazard"></div>
+
+      <section class="section" id="gamejams">
+        <div class="container section-heading">
+          <span class="kicker">
+            <span class="lang-pt">Setor B</span><span class="lang-en">Sector B</span>
+          </span>
           <h2>
-            <span class="lang-pt">Jogos de Game Jam</span>
-            <span class="lang-en">Game Jam Games</span>
+            <span class="lang-pt">Game Jams</span>
+            <span class="lang-en">Game Jams</span>
           </h2>
-          <span class="count">{gamejams.length} projects</span>
+          <span class="count">{gamejams.length} chambers</span>
         </div>
-        <ProjectCarousel items={gamejams} id="carousel-gamejams" />
+        <div class="chambers">
+          {gamejams.map((project, i) => (
+            <ProjectChamber project={project} index={i} />
+          ))}
+        </div>
       </section>
+
+      <div class="hazard"></div>
 
       <CertificatesSection />
     </main>
@@ -161,8 +208,8 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
       import { gsap } from "gsap";
       import { ScrollTrigger } from "gsap/ScrollTrigger";
       import Lenis from "lenis";
-      import { initCarousels } from "../scripts/carousel";
-      import { initFloaters, initWaveDividers, initTilt, initMagneticButton, initGlitch } from "../scripts/life";
+      import { initFloaters, initChamberTilt, initMagneticButton, initGlitch } from "../scripts/life";
+      import { initGate } from "../scripts/gate";
 
       gsap.registerPlugin(ScrollTrigger);
 
@@ -173,10 +220,9 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
       });
       gsap.ticker.lagSmoothing(0);
 
-      initCarousels();
+      initGate();
       initFloaters();
-      initWaveDividers();
-      initTilt();
+      initChamberTilt();
       initMagneticButton();
       initGlitch();
 
@@ -193,20 +239,7 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
         });
       });
 
-      // Hero entrance animation
-      gsap.from(".hero-eyebrow", { opacity: 0, y: 16, duration: 0.7, ease: "power3.out", delay: 0.1 });
-      gsap.from(".hero h1", { opacity: 0, y: 24, duration: 0.9, ease: "power3.out", delay: 0.25 });
-      gsap.from(".hero .bio.lang-pt, .hero .bio.lang-en", {
-        opacity: 0,
-        y: 20,
-        duration: 0.9,
-        ease: "power3.out",
-        delay: 0.45,
-      });
-      gsap.from(".hero-actions", { opacity: 0, y: 20, duration: 0.9, ease: "power3.out", delay: 0.6 });
-      gsap.from(".hero-scroll-hint", { opacity: 0, duration: 1, delay: 1 });
-
-      // "View Portfolio" -> smooth scroll with a small flourish
+      // "View Projects" -> smooth scroll with a small flourish
       const viewBtn = document.getElementById("view-portfolio");
       viewBtn?.addEventListener("click", () => {
         gsap.to(viewBtn, {
@@ -223,16 +256,16 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
         }
       });
 
-      // Scroll-reveal for carousels (whole section, not individual scaled slides)
-      gsap.utils.toArray<HTMLElement>(".embla").forEach((embla) => {
-        gsap.from(embla, {
+      // Scroll-reveal for chambers: slash in diagonally, alternating sides
+      gsap.utils.toArray<HTMLElement>(".reveal-chamber").forEach((chamber, i) => {
+        gsap.from(chamber, {
           opacity: 0,
-          y: 32,
-          duration: 0.8,
+          x: i % 2 === 0 ? -60 : 60,
+          duration: 0.7,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: embla,
-            start: "top 88%",
+            trigger: chamber,
+            start: "top 85%",
           },
         });
       });
