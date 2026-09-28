@@ -27,6 +27,31 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
     />
   </head>
   <body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <symbol id="f-tri" viewBox="0 0 100 100">
+          <path d="M50 15 L85 80 H15 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"></path>
+        </symbol>
+        <symbol id="f-target" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" stroke-width="6"></circle>
+          <path d="M18 50H82" stroke="currentColor" stroke-width="6"></path>
+        </symbol>
+        <symbol id="f-bars" viewBox="0 0 100 100">
+          <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round">
+            <path d="M20 30H80M20 50H80M20 70H80"></path>
+          </g>
+          <circle cx="34" cy="30" r="6" fill="currentColor"></circle>
+          <circle cx="62" cy="50" r="6" fill="currentColor"></circle>
+          <circle cx="44" cy="70" r="6" fill="currentColor"></circle>
+        </symbol>
+        <symbol id="f-dash" viewBox="0 0 100 100">
+          <rect x="10" y="35" width="80" height="30" rx="10" fill="none" stroke="currentColor" stroke-width="6"></rect>
+        </symbol>
+      </defs>
+    </svg>
+
     <header class="site-header">
       <span class="logo-mark">[<span class="accent">TJ</span>]</span>
       <div class="lang-toggle" role="group" aria-label="Language">
@@ -39,6 +64,20 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
 
     <main>
       <section class="hero container">
+        <div class="floaters" aria-hidden="true">
+          <div class="floater" data-depth="0.9" style="left: 8%; top: 20%; width: 64px; height: 64px;">
+            <svg style="--d: 5.5s; --r1: -6deg; --r2: 4deg"><use href="#f-tri"></use></svg>
+          </div>
+          <div class="floater" data-depth="0.5" style="left: 85%; top: 16%; width: 56px; height: 56px;">
+            <svg style="--d: 7s; --r1: -7deg; --r2: 5deg"><use href="#f-target"></use></svg>
+          </div>
+          <div class="floater" data-depth="1.1" style="left: 88%; top: 72%; width: 60px; height: 60px;">
+            <svg style="--d: 6s; --r1: -8deg; --r2: 6deg"><use href="#f-bars"></use></svg>
+          </div>
+          <div class="floater" data-depth="0.7" style="left: 6%; top: 74%; width: 70px; height: 70px;">
+            <svg style="--d: 8s; --r1: -9deg; --r2: 7deg"><use href="#f-dash"></use></svg>
+          </div>
+        </div>
         <p class="hero-eyebrow">
           <span class="lang-pt">IxD / UX Game Designer</span>
           <span class="lang-en">IxD / UX Game Designer</span>
@@ -70,6 +109,23 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
           <span class="lang-en">Scroll down</span>
         </div>
       </section>
+
+      <svg class="wave-divider" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,50 L1000,50 L1000,101 L0,101 Z"></path>
+      </svg>
+
+      <div class="ticker">
+        <div class="track">
+          <span>Game Design</span><span class="dot">·</span><span>Level Design</span><span class="dot">·</span>
+          <span>UI/UX</span><span class="dot">·</span><span>IxD</span><span class="dot">·</span>
+          <span>VR / XR</span><span class="dot">·</span><span>Unity</span><span class="dot">·</span>
+          <span>Prototyping</span><span class="dot">·</span><span>Playtesting</span><span class="dot">·</span>
+          <span>Game Design</span><span class="dot">·</span><span>Level Design</span><span class="dot">·</span>
+          <span>UI/UX</span><span class="dot">·</span><span>IxD</span><span class="dot">·</span>
+          <span>VR / XR</span><span class="dot">·</span><span>Unity</span><span class="dot">·</span>
+          <span>Prototyping</span><span class="dot">·</span><span>Playtesting</span><span class="dot">·</span>
+        </div>
+      </div>
 
       <section class="section container" id="projects">
         <div class="section-heading">
@@ -103,6 +159,7 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
       import { ScrollTrigger } from "gsap/ScrollTrigger";
       import Lenis from "lenis";
       import { initCarousels } from "../scripts/carousel";
+      import { initFloaters, initWaveDividers, initTilt, initMagneticButton, initGlitch } from "../scripts/life";
 
       gsap.registerPlugin(ScrollTrigger);
 
@@ -114,6 +171,11 @@ const gamejams = projects.filter((p) => p.category === "gamejam");
       gsap.ticker.lagSmoothing(0);
 
       initCarousels();
+      initFloaters();
+      initWaveDividers();
+      initTilt();
+      initMagneticButton();
+      initGlitch();
 
       // Language toggle
       const langButtons = document.querySelectorAll<HTMLButtonElement>("[data-lang-btn]");
